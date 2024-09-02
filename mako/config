@@ -1,0 +1,13 @@
+sort=-time
+layer=overlay
+background-color=#282c33
+border-size=1
+border-color=#e9e9e9
+border-radius=2
+icons=1
+max-icon-size=64
+default-timeout=7000
+ignore-timeout=1
+font=Dejavu Sans 10
+text-color=#ffffff
+
