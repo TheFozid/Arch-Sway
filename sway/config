@@ -1,0 +1,130 @@
+### Variables
+#
+set $mod Mod4
+set $term kitty
+set $terminal kitty
+set $fileManager pcmanfm
+set $menu rofi -show drun
+set $browser firefox
+set $calc rofi -show calc
+set $editor code ~/
+
+#Decoration
+default_border pixel 1
+default_floating_border pixel 1
+gaps inner 3
+#smart_gaps on
+#smart_borders on
+
+#Type                       <border>    <background>    <text>      [<indicator>    [<child_border>]]
+client.focused              "#ffffff"   "#ffffff"       "#ffffff"   "#0264fd"
+#client.focused_inactive    "#ffffff"   "#ffffff"       "#ffffff"   "#0264fd"
+#client.focused_tab_title   "#ffffff"   "#ffffff"       "#ffffff"   "#0264fd"
+#client.unfocused           "#ffffff"   "#ffffff"       "#ffffff"   "#0264fd"
+#client.urgent              "#ffffff"   "#ffffff"       "#ffffff"   "#0264fd"
+
+#Program specific views
+for_window [title="gsimplecal"] move position 850 30
+
+#Autostart
+exec spotify & waybar & nm-applet & steam -nochatui -nofriendsui -silent & waypaper --restore
+exec wl-paste --type text --watch cliphist store #Stores only text data
+exec wl-paste --type image --watch cliphist store #Stores only image data
+exec sh ~/scripts/clspotsway.sh
+
+### Output configuration
+
+### Input configuration
+#
+seat seat0 xcursor_theme BreezeX-RosePine-Linux 30
+
+input "type:keyboard" {
+    xkb_layout gb
+    xkb_numlock enabled
+}
+input "type:pointer" {
+    accel_profile flat
+    pointer_accel 0
+    natural_scroll disabled
+}
+#
+### Key bindings
+#
+    bindsym $mod+t exec $term
+    bindsym $mod+q kill
+    bindsym $mod+r exec $menu
+    bindsym $mod+f exec $fileManager
+    bindsym $mod+w exec $browser
+    bindsym $mod+Shift+w exec $browser -P Private -private-window
+    bindsym $mod+Ctrl+w exec torbrowser-launcher
+    bindsym $mod+c exec $calc
+    bindsym $mod+e exec $editor
+    bindsym $mod+m exec sh ~/scripts/bootwin11.sh
+    bindsym $mod+s exec xsane
+    bindsym $mod+n exec obsidian
+    bindsym $mod+Period exec rofi -modi emoji -show emoji -emoji-mode insert
+    bindsym $mod+v exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
+    bindsym Ctrl+Print exec grimshot save active "/home/danny/Pictures/Screenshot/Windowshot`date +%F-%T`.jpg"
+    bindsym Print exec grimshot save output "/home/danny/Pictures/Screenshot/Screenshot`date +%F-%T`.jpg"
+    # Drag windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    floating_modifier $mod normal
+    # Reload the configuration file
+    bindsym $mod+Shift+r reload
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    bindsym $mod+a floating toggle
+    # Switch to workspace
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
+    #Resize
+    bindsym $mod+Ctrl+Left resize shrink width 10px
+    bindsym $mod+Ctrl+Down resize grow height 10px
+    bindsym $mod+Ctrl+Up resize shrink height 10px
+    bindsym $mod+Ctrl+Right resize grow width 10px
+    #Move
+    bindsym $mod+Ctrl+Shift+Left move left 10px
+    bindsym $mod+Ctrl+Shift+Down move down 10px
+    bindsym $mod+Ctrl+Shift+Up move up 10px
+    bindsym $mod+Ctrl+Shift+Right move right 10px
+#
+# Binding Modes
+
+    # Return to default mode
+#    bindsym Return mode "default"
+#    bindsym Escape mode "default"
+}
+include /etc/sway/config.d/*
