@@ -1,0 +1,150 @@
+// -*- mode: jsonc -*-
+{
+    "height": 16, // Waybar height (to be removed for auto height)
+    "spacing": 4, // Gaps between modules (4px)
+    "reload_style_on_change": true,
+
+    // Choose the order of the modules
+    "modules-left": [
+    	"custom/title",
+  	    "sway/workspaces",
+    	"custom/uptime",
+	    "custom/R",
+    	"custom/D",
+    	"custom/S",
+    	"custom/C"
+    ],
+    "modules-center": [
+        "clock",
+        "clock#clock2", 
+        "tray",
+        "pulseaudio",
+        "custom/weather"
+    ],
+    "modules-right": [
+        "network",
+        "custom/cpufreq",
+        "custom/temperature",
+        "memory",
+        "custom/power"
+    ],
+
+    // Modules configuration
+    "sway/workspaces": {
+        "format": "{name}",
+        "format-window-separator": " | ",
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+    "custom/R": {
+        "format" : "/:{}",
+        "tooltip": false,
+        "interval": 10, 
+        "exec" : "df -h --output=used / | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size / | tail -1 | tr -d ''",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/S": {
+        "format" : "S:{}",
+        "tooltip": false,
+        "interval": 10, 
+        "exec" : "df -h --output=used /home/danny/Seagate | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size /home/danny/Seagate | tail -1 | tr -d ''",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/D": {
+        "format" : "D:{}",
+        "tooltip": false,
+        "interval": 10, 
+        "exec" : "df -h --output=used /home/danny/D | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size /home/danny/D | tail -1 | tr -d ''",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/C": {
+        "format" : "C:{}",
+        "tooltip": false,
+        "interval": 10, 
+        "exec" : "df -h --output=used /home/danny/cloud | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size /home/danny/cloud | tail -1 | tr -d ''",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/title": {
+        "format" : "<span size='medium'>󰣇</span>",
+        "tooltip": false,
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/uptime": {
+        "format" : "{}",
+        "tooltip": false,
+        "interval": 1,        
+        "exec" : "sh ~/scripts/uptime.sh",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/cpufreq": {
+        "format" : "{}",
+        "tooltip": false,
+        "interval": 1,
+        "exec" : "sh ~/scripts/cpufreq.sh",
+        "on-click-right": "rofi -show drun"
+	},
+    "custom/temperature": {
+        "interval": 1,
+        "tooltip": false,
+        "exec": "awk '{print int($1)/1000}' /sys/devices/pci0000:00/0000:00:03.1/0000:29:00.0/hwmon/hwmon1/temp1_input",
+        "on-click-right": "rofi -show drun",
+        "format": "GPU {}°C"
+    },
+        "tray": {
+        "icon-size": 15,
+        "tooltip": false,
+        "on-click-right": "rofi -show drun",
+        "spacing": 4
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "interval": 1,
+        "tooltip": false,
+        "format": "<span weight=\"bold\">{:%H:%M:%S}</span>",
+        "on-click": "gsimplecal -t"
+    },
+        "clock#clock2": {
+        // "timezone": "America/New_York",
+        "interval": 1,
+        "tooltip": false,
+        "format": "{:%A %d/%m/%Y}",//"{%A %d/%m/%Y}",
+        "on-click": "gsimplecal -t"
+    },
+    "memory": {
+        "interval": 1,
+        "tooltip": false,
+        "on-click-right": "rofi -show drun",
+        "format": "RAM {}%"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "interval": 1,
+        "tooltip": false,
+        "on-click-right": "rofi -show drun",
+        "format-ethernet": "{bandwidthUpBits}↑ • {bandwidthDownBits}↓ • {ipaddr}"
+    },
+    "custom/weather": {
+    "exec": "python ~/scripts/weather.py",
+    "restart-interval": 60,
+    "interval": 60,
+    "return-type": "json",
+    "on-click": "xdg-open https://weather.com/en-GB/weather/today/l/874a6d973612cc8f223855924e450c778c256adaa5ddcc6770e8dfdef984e6e9"
+    },
+    "pulseaudio": {
+	"scroll-step": 5, // %, can be a float 
+	"format-icons":{
+        "default": ["🔇","🔈","🔉","🔉","🔊"] //🔇🔈🔉🔊🕪🕩🕨
+        },
+	"format": "{icon}",
+	"format-muted": "🔇",
+	"tooltip": true,
+	"tooltip-format": "{volume}%",
+	"on-click-right": "pavucontrol",
+	"on-click": "pavucontrol"
+    },
+    "custom/power": {
+        "format" : "<span weight=\"bold\">⏻</span>", // ⏻
+        "tooltip": false,
+		"on-click": "wlogout"
+	}
+}
