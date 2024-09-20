@@ -22,8 +22,8 @@ weather_icons = {
 # to get your own location_id, go to https://weather.com & search your location.
 # once you choose your location, you can see the location_id in the URL(64 chars long hex string)
 # like this: https://weather.com/en-IN/weather/today/l/c3e96d6cc4965fc54f88296b54449571c4107c73b9638c16aafc83575b4ddf2e
-location_id = "874a6d973612cc8f223855924e450c778c256adaa5ddcc6770e8dfdef984e6e9"  # TODO
-#location_id = "c3e96d6cc4965fc54f88296b54449571c4107c73b9638c16aafc83575b4ddf2e"
+location_id = "874a6d973612cc8f223855924e450c778c256adaa5ddcc6770e8dfdef984e6e9"
+
 
 # get html page
 url = "https://weather.com/en-GB/weather/today/l/" + location_id
@@ -37,23 +37,19 @@ html_data3 = PyQuery(url=url3)
 
 # current temperature
 temp = html_data("span[data-testid='TemperatureValue']").eq(0).text()
-# print(temp)
 
 # current status phrase
 status = html_data("div[data-testid='wxPhrase']").text()
 status = f"{status[:22]}.." if len(status) > 23 else status
-# print(status)
 
 # current status phrase
 insight = html_data("section[aria-label='Precipitation intensity card']").text().split(".")[0]#.split("@")[1]
 insight = insight.replace("\n.","")
 insight = insight.replace(".","")
 insight = f"{insight}.."
-# print(status)
 
 # status code
 status_code = html_data("#regionHeader").attr("class").split(" ")[2].split("-")[2]
-# print(status_code)
 
 # status icon
 icon = (
@@ -61,14 +57,12 @@ icon = (
     if status_code in weather_icons
     else weather_icons["default"]
 )
-# print(icon)
 
 # temperature feels like
 temp_feel = html_data(
     "div[data-testid='FeelsLikeSection'] > span > span[data-testid='TemperatureValue']"
 ).text()
 temp_feel_text = f"Feels like {temp_feel}C"
-# print(temp_feel_text)
 
 # min-max temperature
 temp_min = (
@@ -82,7 +76,6 @@ temp_max = (
     .text()
 )
 temp_min_max = f"🌡️High/Low\t{temp_max}C / {temp_min}C"
-# print(temp_min_max)
 
 # wind speed
 wind_text = html_data3("span[data-testid='Wind']").text()#.split("\n")[1].split(" ")[0]
@@ -103,44 +96,54 @@ wind_text = wind_text.replace("E ","🢀 ")
 wind_text = wind_text.replace("N ","🢃 ")
 wind_text = wind_text.replace("S ","🢁 ")
 wind_text = f"{wind_text}"
-# print(wind_text)
 
 # humidity
 humidity = html_data("span[data-testid='PercentageValue']").text()
 humidity_text = f"💧 {humidity}"
-# print(humidity_text)
 
 # uv
 uv = html_data("span[data-testid='UVIndexValue']").text()
 uv = f"☀️ {uv}"
-# print(uv)
 
 # uv
 sunrise = html_data("div[data-testid='SunriseValue']").text()
 sunrise = sunrise.replace("Sun Rise\n","")
 sunrise = f"☀️🢁 {sunrise}"
-# print(uv)
 
 # uv
 sunset = html_data("div[data-testid='SunsetValue']").text()
 sunset = sunset.replace("Sunset\n","")
-sunset = f"{sunset}☀️🢃"
-# print(uv)
+sunset = f"         {sunset} 🢃☀️"
 
 # visibility
 visbility = html_data("span[data-testid='VisibilityValue']").text()
 visbility_text = f"👀 {visbility}"
-# print(visbility_text)
 
 # air quality index
 air_quality_index = html_data("text[data-testid='DonutChartValue']").text()
-# print(air_quality_index)
 
 prediction1 = html_data("section[aria-label='Hourly Forecast']")(
     "div[data-testid='SegmentPrecipPercentage'] > span"
 ).text()
 prediction1 = prediction1.replace("Chance of Rain","\t")
 prediction1 = f"\n☔{prediction1}" if len(prediction1) > 0 else prediction1
+
+prediction5 = html_data3("li[data-testid='AccumulationSection']")(
+    "span[data-testid='AccumulationValue'] > span"
+).text()
+prediction5 = prediction5.replace("0 mm ","0.0mm\t")
+prediction5 = prediction5.replace(".? mm ",".?mm\t")
+prediction5 = prediction5.replace(".1? mm ",".1mm\t")
+prediction5 = prediction5.replace(".2? mm ",".2mm\t")
+prediction5 = prediction5.replace(".3? mm ",".3mm\t")
+prediction5 = prediction5.replace(".4? mm ",".4mm\t")
+prediction5 = prediction5.replace(".5? mm ",".5mm\t")
+prediction5 = prediction5.replace(".6? mm ",".6mm\t")
+prediction5 = prediction5.replace(".7? mm ",".7mm\t")
+prediction5 = prediction5.replace(".8? mm ",".8mm\t")
+prediction5 = prediction5.replace(".9? mm ",".9mm\t")
+prediction5 = prediction5.replace(".0? mm ",".0mm\t")
+prediction5 = f"\n☔\t{prediction5}"
 
 prediction2 = html_data("section[aria-label='Hourly Forecast']")(
 	"div[data-testid='SegmentHighTemp'] > span"
@@ -204,13 +207,12 @@ predictiontitle1 = predictiontitle1.replace(" 9h","09h")
 predictiontitle1 = predictiontitle1.replace(" ","")
 predictiontitle1 = f"Hourly\t{predictiontitle1}"
 
-
 location1 = html_data2("span[data-testid='PresentationName']").text()
 location1 = f"{location1}"
 
 # tooltip text
 tooltip_text = str.format(
-    "{}\t{} {}\n{}\n{}\n\n{}\n{}\n{}\n\n{}{}{}\n{}{}{}\n\n{}",
+    "{}\t{} {}\n{}\n{}\n\n{}\n{}\n{}\n\n{}{}{}{}\n{}{}{}\n\n{}",
     f'<span size="xx-large">{temp}C</span>',
     f'<span size="xx-large">{icon}</span>',
     f'<span size="xx-large">{status}</span>',
@@ -221,11 +223,12 @@ tooltip_text = str.format(
     f"<big>{visbility_text}\tAQI {air_quality_index}\t{uv}</big>",
     f"{predictiontitle1[:27]}",
     f"<big>{prediction1}</big>",
+    f"{prediction5[:32]}",
     f"<big>{prediction2}</big>",
     f"<big>{predictiontitle[:29]}</big>",    
     f"<big>{prediction3}</big>",
     f'<span size="medium">{prediction4}</span>',
-    f"{sunrise}\t\t\t\t{sunset}",
+    f"{sunrise}\t\t\t{sunset}",
 )
 
 # print waybar module data
