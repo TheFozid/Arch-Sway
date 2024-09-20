@@ -54,7 +54,7 @@
         "format" : "D:{}",
         "tooltip": false,
         "interval": 10, 
-        "exec" : "df -h --output=used /home/danny/D | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size /home/danny/D | tail -1 | tr -d ''",
+        "exec" : "df -h --output=used /home/danny/Drive | tail -1 | tr -d '\n'; echo ' of' | tr -d '\n'; df -h --output=size /home/danny/Drive | tail -1 | tr -d ''",
         "on-click-right": "rofi -show drun"
 	},
     "custom/C": {
@@ -97,18 +97,51 @@
         "spacing": 4
     },
     "clock": {
-        // "timezone": "America/New_York",
+        "timezone": "",
         "interval": 1,
-        "tooltip": false,
-        "format": "<span weight=\"bold\">{:%H:%M:%S}</span>",
-        "on-click": "gsimplecal -t"
+        "format": "<span weight=\"bold\">{:%H:%M:%S (%Z)}</span>",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                }
+            },
+        "actions":  {
+            "on-click-right": "mode"
+        }
     },
-        "clock#clock2": {
-        // "timezone": "America/New_York",
-        "interval": 1,
-        "tooltip": false,
-        "format": "{:%A %d/%m/%Y}",//"{%A %d/%m/%Y}",
-        "on-click": "gsimplecal -t"
+    "clock#clock2": {
+        "format": "{:%A %d/%m/%Y}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                }
+            },
+        "actions":  {
+            "on-click-right": "mode"
+        }
+    //    "timezone": "Europe/London",
+    //    "interval": 1,
+    //    "tooltip": false,
+    //    "format": "{:%A %d/%m/%Y}",
+    //    "on-click": "gsimplecal -t"
     },
     "memory": {
         "interval": 1,
