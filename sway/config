@@ -84,6 +84,9 @@ input "type:pointer" {
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
+
+    bindsym $mod+z layout toggle split
+    bindsym $mod+x splitt
 #
 # Workspaces:
 #
@@ -121,10 +124,5 @@ input "type:pointer" {
     bindsym $mod+Ctrl+Shift+Up move up 10px
     bindsym $mod+Ctrl+Shift+Right move right 10px
 #
-# Binding Modes
-
-    # Return to default mode
-#    bindsym Return mode "default"
-#    bindsym Escape mode "default"
 }
 include /etc/sway/config.d/*
